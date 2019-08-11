@@ -5,6 +5,7 @@ Observações:
 - Este é apenas um rascunho e não reflete a versão final dos requisitos levantados.
 - Houve também certa confusão ao distinguir requisitos não funcionais, funcionais e regras de negócio.
 - Para melhor compreensão,eventuais erros de pt-br **devem ser totalmente ignorados**.
+- Trabalhos em grupo me fazem entender o pq do Batman preferir trabalhar sozinho.
 
 ## 1. Introdução
 ### 1.1 Resumo
@@ -64,8 +65,7 @@ Principais responsabilidades e não responsabilidades do sistema.
 | ---- | --------           | --------                                                                                         | --------    |
 | NF01 | PyGame| Trequinho para desenvolvimento de jogos usando a linguagem de programação python.                                         | Desejável |
 | NF02 | Python             | Linguagem de programação. | Desejável |
-| NF03 | Banco de Dados     | Usar um banco de dados relacional como: SQLite, **MySQL**, Postgres.                         | Desejável |
-|NF04 | Terror Psicológico | De forma prévia, deve ser feita uma base de frases para nutrir nervosismo nos jogadores prestes a falir. |Desejável|
+|NF03 | Terror Psicológico | De forma prévia, deve ser feita uma base de frases para nutrir nervosismo nos jogadores prestes a falir. |Desejável|
 
 ### 2.3. Atores
 
