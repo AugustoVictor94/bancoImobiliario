@@ -5,7 +5,6 @@ Observações:
 - Este é apenas um rascunho e não reflete a versão final dos requisitos levantados.
 - Houve também certa confusão ao distinguir requisitos não funcionais, funcionais e regras de negócio.
 - Para melhor compreensão,eventuais erros de pt-br **devem ser totalmente ignorados**.
-- Trabalhos em grupo me fazem entender o pq do Batman preferir trabalhar sozinho.
 
 ## 1. Introdução
 ### 1.1 Resumo
