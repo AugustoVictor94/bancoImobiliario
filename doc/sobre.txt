@@ -1,7 +1,7 @@
-Use Case = UC
+Use Case = Caso de Uso = UC
 Uma pasta para cada caso de uso, exemplo:
 "UC01 - Iniciar Jogada".
 Dentro da pasta há:
-Detalhamento do CDU
-Diagrama de Sequência
-e oq mais for cobrado.
+	Detalhamento do CDU
+	Diagrama de Sequência
+	e oq mais for cobrado.
