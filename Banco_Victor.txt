@@ -1,0 +1,334 @@
+BANCO IMOBILIARIO
+
+
+Main.java
+
+import java.util.*;
+import java.util.ArrayList;
+/*
+1-
+2-Colocar o jogador para pagar aluguel de propriedades
+3-Colocar o jogador para possuir propriedades
+5-Colocar botar nome de que o jogador esta junto
+*/
+public class Main{
+  public static void main (String[]args){
+    Scanner scan = new Scanner (System.in);
+    Jogo jo = new Jogo();
+    Jogador j = new Jogador();
+		String op;
+    
+    System.out.println ("Digite um numero de 2 a 6 jogadores");
+    int qj = scan.nextInt();
+    while ((qj >= 2 && qj <= 6) != true){
+      System.out.println ("Digite um numero de 2 a 6 jogadores");
+      qj = scan.nextInt ();
+    }
+    
+    jo.InserirProrpiedade(new Propriedade("c1",1));
+    jo.InserirProrpiedade(new Propriedade("c2",3));
+    jo.InserirProrpiedade(new Propriedade("c3",5));
+    jo.InserirProrpiedade(new Propriedade("c4",7));
+    jo.InserirProrpiedade(new Propriedade("c5",9));
+    jo.InserirProrpiedade(new Propriedade("c6",11));
+    
+    while(qj > 0){
+      System.out.println ("Digite os nomes dos jogadores:");
+      String nome = scan.next();
+      jo.InserirJogo(new Jogador(nome));
+      qj--;
+    }
+    
+			System.out.println ("Deseja começar o jogo (s) ou (n)?");
+			op = scan.next();
+			if(op.equals("s")){
+				while(jo.QtdJogadores() != 1){
+					jo.Vez();
+				}
+			}
+  }
+}
+
+==================================================================================================
+Jogador.java
+
+import java.util.ArrayList;
+
+class Jogador{
+  ArrayList<String> propriedades = new ArrayList<String>();
+  int posicao;
+  String nome;
+  int quantia;
+  
+  public Jogador(){}
+  
+  public Jogador (String nome){
+    this.posicao = 0;
+    this.quantia = 1500;
+    this.nome = nome;
+  }
+
+  public void setPosicao(int np){
+    int n1 = this.posicao += np;
+		if(n1 >10 || np >=10){
+			n1 -= 10; 
+		}
+  }
+  
+  public int getPosicao(){
+    return this.posicao;
+  }
+  
+  public int getQuantia(){
+    return this.quantia;
+  }
+  
+  public String getNomeJ(){
+    return this.nome;
+  }
+  
+  public int getValor(){
+    return quantia;
+  }
+
+	public void Receber(){
+
+	}
+
+	public void Pagar(int d){
+		this.quantia = this.quantia - d;
+	}
+
+  public void addPropriedade(String p){
+    propriedades.add(p);
+  }
+
+	public void ExibirPropriedade(){
+		for (String i : propriedades) {
+      System.out.print(i+"-");
+    }
+	}
+  
+}
+==========================================================
+Jogo.java
+
+import java.util.Random;
+import java.util.ArrayList;
+import java.util.*;
+
+class Jogo{
+  ArrayList<Jogador> jogo = new ArrayList<>();
+  ArrayList<Propriedade> propriedades = new ArrayList<>();
+	
+
+  public Jogo(){}
+
+  public void InserirJogo(Jogador j){
+    jogo.add(j);
+  }
+  
+  public void InserirProrpiedade(Propriedade p){
+    propriedades.add(p);
+  } 
+
+  public void RemoverJogo(int indice, int quantia){
+    Jogador j = new Jogador();
+    if (j.getQuantia() < 1500){
+	    jogo.remove(indice);
+    }
+  }
+
+  public int QtdJogadores(){
+    return jogo.size();
+  }
+  
+  public void Vez(){
+    Random gerador = new Random();
+    Scanner scan = new Scanner (System.in);
+    int i = 0;
+    while(i < QtdJogadores()){
+			System.out.print("\n");
+			System.out.println("Sua posição é:"+jogo.get(i).getPosicao());
+			System.out.println("Seu dinheiro:"+jogo.get(i).getQuantia());
+			System.out.println("O que deseja fazer jogador:"+jogo.get(i).getNomeJ());
+      System.out.println("Opçoes:\n1:Jogar dado\n2:Status\n3:Comprar Propriedade\n4:Ver minhas propriedades\n5:Passar Vez:");
+      System.out.print("Digite uma opção:");
+      int opcao = scan.nextInt();
+      boolean contador=true;
+			switch (opcao){
+        case 1:				
+					if(contador==true){
+          	int dado = gerador.nextInt(6);
+          	jogo.get(i).setPosicao(dado);					
+					contador=false;
+					}else{
+						System.out.print("Voce so pode jogar uma vez!!!");
+					}				
+        break;
+        case 2:
+					System.out.print("\n");
+						System.out.println("Voce esta numa Propriedade:"+VerificarP(i));
+						System.out.println("Tem um jogador com voce:"+VerificarJ(i));
+						System.out.println("Essa propriedade tem dono:"+VerificarD(i));
+					System.out.print("\n");
+        break;
+				case 3:
+					ComprarP(VerificarP(i), VerificarD(i), i);
+				break;
+        case 4:
+					jogo.get(i).ExibirPropriedade();
+        break;
+        case 5:
+          i++;
+					contador=true;
+        break;
+        default:
+				  System.out.println("Opcao invalida");
+        }
+      }
+    }
+
+	public void ComprarP(boolean vfP, boolean vfD, int jogador){
+		if(vfP == true){
+			if(vfD == false){
+				for(int p=0; p<propriedades.size(); p++){
+    			if(propriedades.get(p).getPosicao() == jogo.get(jogador).getPosicao()){
+						if(propriedades.get(p).Corretor(jogo.get(jogador).getQuantia()) ==  true){			
+							int subtraindo = propriedades.get(p).getValor();
+							jogo.get(jogador).Pagar(subtraindo);
+							propriedades.get(p).setProprietario(jogo.get(jogador).getNomeJ());
+							jogo.get(jogador).addPropriedade(propriedades.get(p).getNome());
+						}else{
+							System.out.println("Voce nao tem dinheiro suficiente");					
+						}
+    			}
+				}
+			}else{
+      	//Aluguel();
+    	}			
+		}else{
+			System.out.println("Nao tem nada aqui");
+		}		
+	}
+
+	public boolean VerificarDinheiro(int jogador){
+		boolean retorno = false;
+		for(int p=0; p<propriedades.size(); p++){
+    	if(propriedades.get(p).getValor() < jogo.get(jogador).getQuantia()){
+      	retorno = true;
+				break;			
+    	}else{
+      	retorno = false;
+    	}
+		}	 		
+    return retorno;
+	}
+		
+	public boolean VerificarD(int jogador){
+		boolean retorno = false;
+		for(int p=0; p<propriedades.size(); p++){
+    	if(propriedades.get(p).getProprietario() == jogo.get(jogador).getNomeJ()){
+      	retorno = true;
+				break;			
+    	}else{
+      	retorno = false;
+    	}				
+		}
+		return retorno;
+	}	
+
+	public boolean VerificarP(int jogador){
+    boolean retorno = false;
+		for(int p=0; p<propriedades.size(); p++){
+    	if(propriedades.get(p).getPosicao() == jogo.get(jogador).getPosicao()){
+      	retorno = true;
+				break;			
+    	}else{
+      	retorno = false;
+    	}
+		}	 		
+    return retorno;
+  }
+
+	public boolean VerificarJ(int jogador){
+    boolean retorno = false;
+		for(int j=0; j<jogo.size(); j++){
+			if(jogo.get(j).getNomeJ() != jogo.get(jogador).getNomeJ()){
+    		if(jogo.get(j).getPosicao() == jogo.get(jogador).getPosicao()){
+      		retorno = true;
+					break;			
+    		}else{
+      		retorno = false;
+    		}
+			}
+		}	 		
+    return retorno;
+  }
+
+  public void MostrarP(){
+    for(int i=0; i<propriedades.size(); i++){
+      System.out.println(propriedades.get(i).getNome());
+    }
+  }
+
+}
+==========================================================
+Propriedade.java
+
+class Propriedade{
+  int posicao;
+  String nome;
+  int valor;
+	String proprietario;
+  
+	public Propriedade(){}
+  
+  public Propriedade (String nome, int posicao){
+    this.nome = nome;
+    this.posicao = posicao;
+    valor = 200;
+  }
+  
+  public int getPosicao(){
+    return posicao;
+  }
+  
+  public int getValor(){
+    return valor;
+  }
+
+  public void setNome (String nome){
+    this.nome = nome;
+  }
+
+	public void setProprietario(String j){
+		this.proprietario = j;
+	}
+
+	public String getProprietario(){
+		return this.proprietario;
+	}
+  
+  public String getNome(){
+   return this.nome;
+  }
+  
+	public boolean Corretor(int valor){
+		boolean retorno = false;
+		if(valor>getValor()){
+			retorno = true;
+		}
+		return retorno;
+	}	
+
+}
+==========================================================
+Tabuleiro.java
+
+class Tabuleiro{
+  Object caminho[];
+}
+
+
+==========================================================
